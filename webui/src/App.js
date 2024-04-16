@@ -14,8 +14,8 @@ function App() {
     }
 
     function callPost() {
-        //http://localhost:3001/?lang=c++
-        let data = '?lang=c++';
+        //http://localhost:8080/?lang=c++
+        let data = '?mem=nevara';
         axios.post(url + data)
         .then((response)=>{
             setServerResponse(response.data);
@@ -23,7 +23,7 @@ function App() {
     }
 
     function callPut() {
-        let data = '?lang=python&index=0';
+        let data = '?mem=laezel&index=0';
         axios.put(url + data)
         .then((response) => {
             setServerResponse(response.data);

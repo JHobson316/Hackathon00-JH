@@ -1,47 +1,58 @@
 const express = require('express');
 const cors = require('cors');
-// const dotenv = require('dotenv');
-// dotenv.config();
 require('dotenv').config();
-
 const app = express();
 
 app.use(cors());
+app.use(logger("dev"));
 
-let langs = [];
 
-app.get('/', (req, res) => {
-    res.send('Hello User\n' + 'there are ' + langs.length + ' langs\n' + langs[0]);
-});
+let Party = [];
 
-app.post('/', (req, res) => {
-    if (req.query.lang) {
-        langs.push(req.query.lang);
-    }
-    res.send(langs);
-});
+app.get('/',(req,res)=>{
+        res.send(`You have ${Party.length || "no"} people in your party.`);
+    });  
 
-app.put('/', (req, res) => {
-    if (req.query.index && req.query.lang) {
-        langs[req.query.index] = req.query.lang;
-        res.send(langs[req.query.index]);
-    } else {
-        res.send('No Update was made');
-    }
-    //localhost:3001/?lang=c++&index=0
-    
-});
+app.post('/',(req,res)=>{
+        if (req.query.mem){
+            try{
+                Party.push(req.query.mem);
+            }
+            catch{
+                console.log(err)
+            }
+        }
+        res.send(Party);
+    });
 
-//API stands for ????
+    app.put('/', (req, res) => {
+        if (req.query.index && req.query.lang) {
+            Party[req.query.index] = req.query.mem;
+            res.send(Party[req.query.index]);
+        } else {
+            res.send('No Update was made');
+        }
+        //localhost:3001/?lang=c++&index=0
+        
+    });
+
 app.delete('/', (req, res) => {
     if (req.query.index) {
-        langs[req.query.index] = undefined;
+        Party[req.query.index] = undefined;
         res.send(req.query.index + ' was removed');
     } else {
         res.send('Nothing was removed. Send an index');
     }
 });
 
-app.listen(3001, ()=>{
-    console.log('http://localhost:3001')
+
+// app.get('/', (req, res) => {
+//     res.send('Welcome to the Cave')
+// })
+// app.get('/valk', (req, res) => {
+//     res.send('This kinda rocks')
+// })
+
+app.listen(8080, () => {
+    console.log('listening on port 8080')
 })
